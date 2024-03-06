@@ -1,12 +1,11 @@
-import { Row, Col } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Product from '../components/Product';
-import { useGetProductsQuery } from '../slices/productsApiSlice';
+import { Col, Row } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import Product from '../components/Product';
 import ProductCarousel from '../components/ProductCarousel';
+import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();

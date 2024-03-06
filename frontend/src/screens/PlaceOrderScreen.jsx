@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CheckoutSteps from '../components/CheckoutSteps';
-import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useCreateOrderMutation } from '../slices/ordersApiSlice';
+import Message from '../components/Message';
 import { clearCartItems } from '../slices/cartSlice';
+import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
@@ -102,25 +102,25 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items:</Col>
-                  <Col>$ {cart.itemsPrice}</Col>
+                  <Col>₹ {cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping:</Col>
-                  <Col>$ {cart.shippingPrice}</Col>
+                  <Col>₹ {cart.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>$ {cart.taxPrice}</Col>
+                  <Col>₹ {cart.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total:</Col>
-                  <Col>$ {cart.totalPrice}</Col>
+                  <Col>₹ {cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
