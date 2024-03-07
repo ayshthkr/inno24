@@ -1,26 +1,26 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import {
-  Row,
+  Button,
+  Card,
   Col,
+  Form,
   Image,
   ListGroup,
-  Card,
-  Button,
-  Form,
+  Row,
+  Spinner,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Meta from '../components/Meta';
-import {
-  useGetProductDetailsQuery,
-  useCreateReviewMutation,
-} from '../slices/productsApiSlice';
+import Rating from '../components/Rating';
 import { addToCart } from '../slices/cartSlice';
+import {
+  useCreateReviewMutation,
+  useGetProductDetailsQuery,
+} from '../slices/productsApiSlice';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -66,6 +66,8 @@ const ProductScreen = () => {
     }
   };
 
+  if(isLoading) return <Spinner />
+
   return (
     <div>
       <Link className="btn btn-light my-3" to="/">
@@ -105,6 +107,12 @@ const ProductScreen = () => {
             <Col md={3}>
               <Card>
                 <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Server's Recommendation</Col>
+                      <Col><strong>{Math.round(product.serverRating * 100)}%</strong></Col>
+                    </Row>
+                  </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Price:</Col>

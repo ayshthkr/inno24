@@ -1,3 +1,4 @@
+import { base64encode } from "nodejs-base64";
 import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/productModel.js';
 
@@ -25,8 +26,15 @@ const getProducts = asyncHandler(async (req, res) => {
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
+  // const singledata = [{"price" : , "rating": , "promotion" : 1,  "attributes" : [ ,  ] }]
+  const singledata = `[{"price": ${product.price}, "rating": ${product.rating}, "promotion": 1, "attributes":["${product.name}","${product.description}"]}]`
+  const data =  await fetch(`https://innohacks-ml.devrahulsingh.tech/catalogreader?data=${base64encode(JSON.stringify(singledata))}`);
+  const jsdata = await data.json();
+  product.serverRating = jsdata.score;
+  const updatedProduct = await product.save();
+  
   if (product) {
-    return res.status(200).json(product);
+    return res.status(200).json(updatedProduct);
   } else {
     res.status(404);
     throw new Error('Resource not found');
@@ -140,11 +148,6 @@ const getTopProducts = asyncHandler(async (req, res) => {
 });
 
 export {
-  getProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  createProductReview,
-  getTopProducts,
+  createProduct, createProductReview, deleteProduct, getProductById, getProducts, getTopProducts, updateProduct
 };
+
