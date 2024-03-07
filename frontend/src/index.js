@@ -16,6 +16,7 @@ import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 import AdminRoute from './components/AdminRoute';
 import PrivateRoute from './components/PrivateRoute';
+import Translate from './components/Translate';
 import reportWebVitals from './reportWebVitals';
 import DeliveryPath from './screens/admin/DeliveryPath';
 import OrderListScreen from './screens/admin/OrderListScreen';
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         path="/search/:keyword/page/:pageNumber"
         element={<HomeScreen />}
       />
+      <Route path="/translate" element={<Translate />} />
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/cart" element={<CartScreen />} />
       <Route path="/login" element={<LoginScreen />} />
