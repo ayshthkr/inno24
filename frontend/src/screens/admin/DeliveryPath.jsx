@@ -2,7 +2,7 @@ import { Spinner } from "react-bootstrap";
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
 
 const DeliveryPath = () => {
-    const { data: orders, isLoading, _error } = useGetOrdersQuery();
+    const { data: orders, isLoading } = useGetOrdersQuery();
     if(isLoading) return <Spinner />
     return <div>
         {JSON.stringify(orders)}
