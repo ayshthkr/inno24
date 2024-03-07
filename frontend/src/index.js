@@ -1,37 +1,38 @@
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
+import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { Provider } from 'react-redux';
-import { HelmetProvider } from 'react-helmet-async';
 import store from './store';
 // import 'bootstrap/dist/css/bootstrap.min.css'
-import './assets/styles/index.css';
-import './assets/styles/bootstrap.custom.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import PrivateRoute from './components/PrivateRoute';
+import './assets/styles/bootstrap.custom.css';
+import './assets/styles/index.css';
 import AdminRoute from './components/AdminRoute';
-import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
+import PrivateRoute from './components/PrivateRoute';
+import reportWebVitals from './reportWebVitals';
+import DeliveryPath from './screens/admin/DeliveryPath';
+import OrderListScreen from './screens/admin/OrderListScreen';
+import ProductEditScreen from './screens/admin/ProductEditScreen';
+import ProductListScreen from './screens/admin/ProductListScreen';
+import UserEditScreen from './screens/admin/UserEditScreen';
+import UserListScreen from './screens/admin/UserListScreen';
 import CartScreen from './screens/CartScreen';
+import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import ShippingScreen from './screens/ShippingScreen';
+import OrderScreen from './screens/OrderScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrdersScreen from './screens/PlaceOrderScreen';
-import OrderScreen from './screens/OrderScreen';
+import ProductScreen from './screens/ProductScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import OrderListScreen from './screens/admin/OrderListScreen';
-import ProductListScreen from './screens/admin/ProductListScreen';
-import ProductEditScreen from './screens/admin/ProductEditScreen';
-import UserListScreen from './screens/admin/UserListScreen';
-import UserEditScreen from './screens/admin/UserEditScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import ShippingScreen from './screens/ShippingScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -66,6 +67,7 @@ const router = createBrowserRouter(
         <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
         <Route path="/admin/userlist" element={<UserListScreen />} />
         <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+        <Route path="/admin/deliverypath" element={<DeliveryPath />} />
       </Route>
     </Route>,
   ),
