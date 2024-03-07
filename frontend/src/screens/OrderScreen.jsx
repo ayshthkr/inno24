@@ -12,6 +12,7 @@ import {
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
 } from '../slices/ordersApiSlice';
+import { Map } from '../components/MapComponent';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -232,8 +233,15 @@ const OrderScreen = () => {
                 )}
             </ListGroup>
           </Card>
+          {userInfo &&
+            userInfo.isAdmin &&
+            <Card>
+              <Map destination={`${order.shippingAddress.address} ${order.shippingAddress.city}`}
+              />
+            </Card>
+          }
         </Col>
-      </Row>
+      </Row >
     </>
   );
 };
