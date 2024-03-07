@@ -241,7 +241,7 @@ const OrderScreen = () => {
             </Card>
           }
         </Col>
-      </Row >
+      </Row>
     </>
   );
 };

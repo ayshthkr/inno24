@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup } from "react-leaflet";
+import { EditControl } from "react-leaflet-draw";
 import L from "leaflet"
 // import { RoutingMachine } from "react-leaflet-routing-machine";
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-routing-machine'
 import getGeocode from "./getGeoCode";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css"
-import { Prev } from "react-bootstrap/esm/PageItem";
+import 'leaflet-draw/dist/leaflet.draw.css'
+
 function RoutingMachine({ waypoints }) {
     const map = useMap();
 
@@ -21,16 +23,6 @@ function RoutingMachine({ waypoints }) {
 
                     return L.latLng(coords.latLng[0], coords.latLng[1])
                 }),
-
-            // [L.latLng(16.506, 80.648),
-            //     L.latLng(17.384, 78.4866),
-            //     L.latLng(12.971, 77.5945)
-            // ]            ,
-            // router: new L.Routing.GraphHopper("3c01185e-9fb4-411a-97f3-fc677dd1fcc3"),
-            // lineOptions: {
-            //     styles: [{ color: "#00ab55", weight: 4 }]
-            // },
-            // collapsible: false,
             show: true,
             draggableWaypoints: false,
             fitSelectedRoutes: true,
@@ -68,6 +60,8 @@ export const Map = React.forwardRef((props) => {
     const [place, setPlace] = useState(['Dwarka,New Delhi', props.destination]);
     const [geocode, setGeocode] = useState(null);
     const refMap = useRef()
+
+    const [MapLayer, setMapLayer] = useState([]);
     const handleSearch = async () => {
         try {
             const results = await Promise.all(place.map(p => getGeocode(p)));
@@ -96,6 +90,29 @@ export const Map = React.forwardRef((props) => {
         console.log("geocordinate=>", centerpin);
     }, [centerpin])
 
+    const _onCreate = (e) => {
+        console.log(e)
+        const { layerType, layer } = e;
+        if (layerType == "polygon") {
+            const { _leaflet_id } = layer;
+            setMapLayer(layers => [...layers, { id: _leaflet_id, latLng: layer.getLatLngs()[0] }])
+        }
+    }
+
+    const _onEdited = (e) => {
+        console.log(e);
+        // const { layers: { _layers } } = e;
+        // Object.values(_layers).map(({ _leaflet_id, editing }) => {
+        //     setMapLayer((layers) => layers.map((f) => f.id === _leaflet_id) ? { ...f, latlngs: { ...editing.latlngs[0] } } : f)
+        // })
+    }
+    const _onDeleted = (e) => {
+        console.log(e);
+        const { layers: { _layers } } = e;
+        Object.values(_layers).map((_leaflet_id) => {
+            setMapLayer((layers) => { layers.filter((l) => l.id !== _leaflet_id) })
+        })
+    }
     return (
         centerpin.length !== 0 && !areArraysEqual(centerpin, [51.52, -0.13]) &&
         <MapContainer
@@ -107,6 +124,21 @@ export const Map = React.forwardRef((props) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
+            <FeatureGroup>
+                <EditControl
+                    onCreated={_onCreate}
+                    onEdited={_onEdited}
+                    onDeleted={_onDeleted}
+                    draw={{
+                        rectangle: false,
+                        polyline: false,
+                        circle: false,
+                        circlemarker: false,
+                        marker: false
+                    }}
+                >
+                </EditControl>
+            </FeatureGroup>
             <RoutingMachine
                 position="topright"
                 waypoints={geocode.map(coords => ({ latLng: coords }))}
@@ -114,8 +146,7 @@ export const Map = React.forwardRef((props) => {
             {geocode && geocode.map((coords, index) => (
 
                 <Marker key={index} position={coords} icon={customIcon}>
-                    <Popup>
-
+                    <Popup>{`${coords[0]},${coords[1]}`}
                     </Popup>
                 </Marker>
             ))}
