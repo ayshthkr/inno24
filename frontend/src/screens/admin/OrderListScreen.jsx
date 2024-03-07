@@ -4,12 +4,14 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice';
+import { Map } from '../../components/MapComponent';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
     <>
+      {/* {JSON.stringify(orders)} */}
       <h1>Orders</h1>
       {isLoading ? (
         <Loader />
@@ -58,6 +60,12 @@ const OrderListScreen = () => {
                 </td>
               </tr>
             ))}
+            {/* <Map data={orders.map((order) => {
+              return {
+                address: order.shippingAddress,
+                user: order.user,
+              }
+            })} /> */}
           </tbody>
         </Table>
       )}
